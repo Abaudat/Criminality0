@@ -4,7 +4,8 @@ import * as store from './store.js';
 import { world } from './store.js';
 import { FIELDS, contactsUnlockedAt } from '../core/fields.js';
 import { VERDICTS } from '../core/rules.js';
-import { createTable } from './table.js';
+import { isHeld } from '../core/game.js';
+import { createTable, fitWidth } from './table.js';
 import { nameOf, registryOf, portraitOf, viewValue } from './citizen.js';
 
 export function createDatabase(ctx) {
@@ -15,12 +16,12 @@ export function createDatabase(ctx) {
 
   const result = () => store.monthResult();
   const current = () => store.state();
-  const verdictKey = (id) => (current().jailed[id] ? 'jailed' : VERDICTS[result().verdicts[id]]);
+  const verdictKey = (id) => (current().jailed[id] ? 'jailed' : isHeld(world, id, current().month) ? 'held' : VERDICTS[result().verdicts[id]]);
 
   const fieldColumns = FIELDS.filter((field) => field.unlock <= month).map((field) => ({
     key: field.key,
     label: fieldLabel(field.key),
-    width: field.key === 'medical' || field.key === 'occupation' || field.key === 'citizenship' ? 'minmax(6.5rem, 1fr)' : field.key === 'sex' || field.key === 'record' ? '4rem' : '5.4rem',
+    width: field.key === 'medical' || field.key === 'occupation' || field.key === 'citizenship' ? fitWidth(fieldLabel(field.key), 6.5, true) : fitWidth(fieldLabel(field.key), field.key === 'sex' || field.key === 'record' ? 4 : 5.4),
     render: (id) => valueLabel(field.key, viewValue(result().view, field.key, id)),
     sortValue: (id) => result().view.columns[field.key][id],
     filterOf: (id) => viewValue(result().view, field.key, id),
@@ -30,13 +31,13 @@ export function createDatabase(ctx) {
   const columns = [
     { key: 'photo', label: '', width: '2.6rem', render: (id) => h('img', { src: portraitOf(id, current().jailed[id] ? 'paper' : 'terminal'), alt: '', loading: 'lazy' }) },
     { key: 'name', label: t('table.name'), width: 'minmax(8.5rem, 1.2fr)', render: (id) => (id === player ? [h('b.cyan', null, t('table.you')), ' ', nameOf(id)] : nameOf(id)), sortValue: (id) => nameOf(id) },
-    { key: 'registry', label: t('table.registry'), width: '4.8rem', render: (id) => registryOf(id), sortValue: (id) => population.registry[id] },
+    { key: 'registry', label: t('table.registry'), width: fitWidth(t('table.registry'), 4.8), render: (id) => registryOf(id), sortValue: (id) => population.registry[id] },
     ...fieldColumns,
     ...(contactsUnlockedAt(month)
       ? [{
         key: 'contacts',
         label: fieldLabel('contacts'),
-        width: '6rem',
+        width: fitWidth(fieldLabel('contacts'), 6),
         render: (id) => {
           const view = result().view;
           const criminal = view.criminalContacts[id];
@@ -51,14 +52,16 @@ export function createDatabase(ctx) {
     {
       key: 'verdict',
       label: t('table.verdict'),
-      width: '6.4rem',
+      width: fitWidth(t('table.verdict'), 6.4),
       render: (id) => {
         const key = verdictKey(id);
-        return h(`span.verdict.${key}`, null, key === 'jailed' ? `${t('table.jailed')} ${current().jailed[id]}` : t(`verdicts.${key}`));
+        if (key === 'jailed') return h('span.verdict.jailed', null, `${t('table.jailed')} ${current().jailed[id]}`);
+        if (key === 'held') return h('span.verdict.held', { title: t('table.heldNote', { month: world.heldUntil[id] }) }, t('table.held'));
+        return h(`span.verdict.${key}`, null, t(`verdicts.${key}`));
       },
       sortValue: (id) => (current().jailed[id] ? -1 : result().verdicts[id]),
       filterOf: verdictKey,
-      filterValues: () => ['clear', 'watch', 'detain', 'jailed'].map((value) => ({ value, label: value === 'jailed' ? t('table.jailed') : t(`verdicts.${value}`) })),
+      filterValues: () => ['clear', 'watch', 'detain', 'held', 'jailed'].map((value) => ({ value, label: value === 'jailed' || value === 'held' ? t(`table.${value}`) : t(`verdicts.${value}`) })),
     },
   ];
 

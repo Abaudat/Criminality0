@@ -1,11 +1,22 @@
 import { FIELDS, FIELD_BY_KEY } from './fields.js';
 import { evaluateRules, CLEAR, WATCH, DETAIN, VERDICTS } from './rules.js';
-import { slotsFor, watchCapFor, requestsFor, MONTHS, ZERO_THRESHOLD, UNREST_LIMIT, UNREST_DECAY, OPTIONAL_RANGE } from './campaign.js';
+import { slotsFor, watchCapFor, requestsFor, REQUESTS, MONTHS, ZERO_THRESHOLD, UNREST_LIMIT, UNREST_DECAY, OPTIONAL_RANGE } from './campaign.js';
 import { START_SAVINGS, normalizeChoices, expensesOf, isIllegal, worthBracket, salaryFor } from './economy.js';
 import { generatePopulation } from './population.js';
 
 export function createWorld(population = generatePopulation()) {
-  return { population, roles: population.roles };
+  const heldUntil = new Uint8Array(population.size);
+  for (const request of REQUESTS) {
+    for (const role of request.targets) {
+      const id = population.roles[role];
+      heldUntil[id] = heldUntil[id] ? Math.min(heldUntil[id], request.month) : request.month;
+    }
+  }
+  return { population, roles: population.roles, heldUntil };
+}
+
+export function isHeld(world, id, month) {
+  return month < world.heldUntil[id];
 }
 
 export function initialState(world) {
@@ -123,14 +134,17 @@ export function computeMonth(world, state, input) {
   const firstView = buildView(world, state, month, overridesFor(world, state, month, choices, worthBracket(state.savings)));
   const firstPass = evaluateRules(rules, firstView);
   let detainedOthers = 0;
-  for (let id = 0; id < firstView.size; id++) if (id !== player && firstPass.verdicts[id] === DETAIN) detainedOthers++;
+  for (let id = 0; id < firstView.size; id++) if (id !== player && firstPass.verdicts[id] === DETAIN && !isHeld(world, id, month)) detainedOthers++;
   const salary = salaryFor(detainedOthers);
   const expenses = expensesOf(state, choices);
   const savingsAfter = state.savings + salary - expenses.reduce((sum, line) => sum + line.amount, 0);
   const playerWorth = worthBracket(savingsAfter);
 
   const view = buildView(world, state, month, overridesFor(world, state, month, choices, playerWorth));
-  const { verdicts, matches } = evaluateRules(rules, view);
+  const evaluated = evaluateRules(rules, view);
+  const verdicts = evaluated.verdicts;
+  for (let id = 0; id < view.size; id++) if (isHeld(world, id, month)) verdicts[id] = CLEAR;
+  const matches = evaluated.matches.map((list) => list.filter((id) => !isHeld(world, id, month)));
   let watched = 0;
   let detained = 0;
   for (let id = 0; id < view.size; id++) {

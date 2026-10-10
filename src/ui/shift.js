@@ -30,8 +30,9 @@ export function createShift(ctx) {
   }
 
   function renderTabs() {
-    replace(workspaceTabs, Object.keys(WORKSPACES).map((name) => h('button' + (activeName === name ? '.active' : ''), { onclick: () => { openWorkspace(name); renderTabs(); } }, t(`shift.${name}`))));
+    replace(workspaceTabs, Object.keys(WORKSPACES).map((name) => h('button' + (activeName === name ? '.active' : ''), { 'data-tour': `tab-${name}`, onclick: () => { openWorkspace(name); renderTabs(); } }, t(`shift.${name}`))));
     replace(shiftTabs, ['rules', ...Object.keys(WORKSPACES)].map((name) => h('button' + (view === name ? '.active' : ''), {
+      'data-tour': `tab-${name}`,
       onclick: () => {
         view = name;
         root.dataset.view = name;

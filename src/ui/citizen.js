@@ -40,8 +40,10 @@ export function portraitOf(id, tone = 'terminal') {
 
 export function humanLineOf(id, used = null) {
   const age = population.columns.age[id];
-  const pool = s(`humanLines.${age === 0 ? 'young' : age === 3 ? 'old' : 'adult'}`);
-  const start = hashSeed('line', id) % pool.length;
+  const group = age === 0 ? 'young' : age === 3 ? 'old' : 'adult';
+  const own = s(`humanLines.${group}`);
+  const pool = [...own, ...s('humanLines.adult').filter((line) => group !== 'adult' && !own.includes(line))];
+  const start = hashSeed('line', id) % own.length;
   for (let offset = 0; offset < pool.length; offset++) {
     const line = pool[(start + offset) % pool.length];
     if (!used || !used.has(line)) {

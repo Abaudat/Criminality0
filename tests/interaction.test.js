@@ -6,11 +6,12 @@ import { blotterFor } from '../src/core/blotter.js';
 import { scenesFor, inboxFor } from '../src/core/story.js';
 import { evaluateRules } from '../src/core/rules.js';
 
-test('the first morning: Crane briefs you and the old blotter points at Stack 9 shoplifters', () => {
+test('the first morning: Crane briefs you and the old reports point at Stack 9 shoplifters', () => {
   const state = initialState(world);
   assert.deepEqual(scenesFor(world, state, 1), ['craneIntro']);
   const reports = blotterFor(world, state, 0);
-  assert.ok(reports.length > 800);
+  assert.ok(reports.length > 200 && reports.length < 400);
+  assert.ok(reports.filter((report) => report.crime === 'shoplifting').length > reports.filter((report) => report.crime === 'insidertrading').length * 2);
   const shoplifting = reports.filter((report) => report.crime === 'shoplifting' && report.fields.district);
   const stack9 = shoplifting.filter((report) => report.fields.district === 'stack9').length;
   assert.ok(stack9 / shoplifting.length > 0.9);
@@ -22,12 +23,13 @@ test('a blanket poverty rule is too broad to watch, a refined one fits', () => {
   assert.ok(broad.overCap);
   const refined = computeMonth(world, state, { rules: [RULES.shoplifters] });
   assert.ok(!refined.overCap);
-  assert.equal(refined.watched, 124);
+  assert.equal(refined.watched, 123);
+  assert.equal(refined.rules.length, 1);
 });
 
 test('next morning the rule stats confirm the hypothesis', () => {
   const state = resolveMonth(world, initialState(world), { rules: [RULES.shoplifters, RULES.embezzlers] });
-  assert.deepEqual(state.history[0].ruleStats.map((stat) => stat.guilty), [110, 70]);
+  assert.deepEqual(state.history[0].ruleStats.map((stat) => stat.guilty), [109]);
   assert.equal(state.history[0].innocentsDetained, 0);
 });
 
@@ -62,4 +64,13 @@ test('the sister confesses in month 8 and the insulin rule sides with the state'
 test('cutting contact removes your sister from your graph', () => {
   const state = play([[RULES.shoplifters], [RULES.cargoThieves], [RULES.creditFraud]], { 3: { contact: 'cut' } });
   assert.ok(!contactsOf(world, state, world.roles.player).includes(world.roles.sister));
+});
+
+test('people named in a later request stay out of reach until their month', () => {
+  const lev = world.roles.motherson;
+  const first = resolveMonth(world, initialState(world), { rules: [RULES.shoplifters] });
+  assert.equal(first.jailed[lev], 0);
+  const second = resolveMonth(world, first, { rules: [RULES.shoplifters] });
+  assert.equal(second.jailed[lev], 2);
+  assert.equal(second.requestResults.motherson.satisfied, false);
 });

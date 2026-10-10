@@ -30,15 +30,15 @@ export const RULES = { shoplifters, embezzlers, cargoThieves, burglars, creditFr
 
 function baseSchedule({ lawfulCourier, sonDetained, flagNephew, flagHacker, spareSister, flagCoworker }) {
   return [
-    [shoplifters, embezzlers],
-    [sonDetained ? cargoDetain : cargoThieves, burglars],
-    lawfulCourier ? [creditFraud, courier] : [creditFraud, fences],
-    [rationFraud, insiders, tidewaterTip],
-    [laidOff, cascade, rationCut],
-    lawfulCourier ? [fences, flagNephew ? nephew : cascade, cascade] : [flagNephew ? nephew : cascade, cascade],
+    [shoplifters],
+    [embezzlers, cargoThieves],
+    lawfulCourier ? [burglars, courier] : [burglars, creditFraud],
+    [lawfulCourier ? creditFraud : fences, sonDetained ? cargoDetain : insiders, tidewaterTip],
+    [laidOff, rationFraud, rationCut],
+    [lawfulCourier ? fences : cascade, flagNephew ? nephew : cascade, cascade],
     [glasshouseTip, cascade, flagHacker ? hacker : cascade],
-    spareSister ? [cascade, insulinMen, insulinOlderWomen] : [cascade, insulin],
-    [cascade],
+    spareSister ? [cascade, insulinMen, insulinOlderWomen, shoplifters] : [cascade, insulin, shoplifters],
+    [cascade, insiders],
     [cascade, flagCoworker ? coworker : cascade],
     [cascade],
     [cascade],

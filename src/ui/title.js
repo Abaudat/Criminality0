@@ -4,7 +4,8 @@ import { getSave, hasCareer, setTransient, state as gameState, abandonCareer } f
 import { createCityFeed } from '../art/city.js';
 import { logoSvg } from '../art/logo.js';
 import { modal, confirmModal } from './overlay.js';
-import { setSoundEnabled, sfx, initAudio } from '../audio/sound.js';
+import { sfx } from '../audio/sound.js';
+import { openSoundSettings } from './soundSettings.js';
 
 let booted = false;
 
@@ -34,15 +35,7 @@ export function createTitle(app, options) {
     }, t('title.newGame')),
     h('div.title-row', null,
       h('button.btn', { onclick: () => openLanguages(app) }, t('title.language'), ' · ', LANGUAGES.find((entry) => entry.code === language()).name),
-      h('button.btn', {
-        onclick: () => {
-          const next = !getSave().sound;
-          setTransient((data) => (data.sound = next), 'sound');
-          setSoundEnabled(next);
-          initAudio();
-          app.show('title');
-        },
-      }, icon(save.sound ? 'sound' : 'mute'), t('title.sound'), ' · ', t(save.sound ? 'title.on' : 'title.off')),
+      h('button.btn', { onclick: () => openSoundSettings(() => app.show('title')) }, icon(save.sound ? 'sound' : 'mute'), t('title.sound'), ' · ', save.sound ? `${Math.round(save.volume * 100)}%` : t('title.off')),
       h('button.btn', { onclick: () => openCredits() }, t('title.credits')),
     ),
     save.endings.length ? h('p.small.dim', { style: { textAlign: 'center', margin: 0 } }, t('title.endingsFound', { n: save.endings.length })) : null,

@@ -9,7 +9,8 @@ import { VERDICTS } from '../core/rules.js';
 import { criminalsAtLarge, criminalityPercent } from '../core/game.js';
 import { scenesFor, newsFor, inboxFor } from '../core/story.js';
 import { slotsFor } from '../core/campaign.js';
-import { setSoundEnabled, sfx } from '../audio/sound.js';
+import { sfx } from '../audio/sound.js';
+import { openSoundSettings } from './soundSettings.js';
 import { createBriefing } from './briefing.js';
 import { createInbox } from './inbox.js';
 import { createShift } from './shift.js';
@@ -17,6 +18,7 @@ import { createHome } from './home.js';
 import { openDossier } from './dossier.js';
 import { playScenes } from './scene.js';
 import { playTransition } from './transition.js';
+import { shouldRunTutorial, runTutorial } from './tutorial.js';
 
 const PHASES = ['briefing', 'inbox', 'shift', 'home'];
 const PANELS = { briefing: createBriefing, inbox: createInbox, shift: createShift, home: createHome };
@@ -34,16 +36,13 @@ export function createDesk(app) {
     you: metric('top.you'),
   };
   metrics.criminality.root.title = t('top.goal');
+  for (const [key, entry] of Object.entries(metrics)) entry.root.dataset.tour = key;
   const undoButton = h('button.btn.ghost.icon-only', { title: t('top.undo'), 'aria-label': t('top.undo'), onclick: () => store.undo() }, icon('undo'));
   const redoButton = h('button.btn.ghost.icon-only', { title: t('top.redo'), 'aria-label': t('top.redo'), onclick: () => store.redo() }, icon('redo'));
   const soundButton = h('button.btn.ghost.icon-only', {
     title: t('top.sound'),
     'aria-label': t('top.sound'),
-    onclick: () => {
-      const next = !store.getSave().sound;
-      store.setTransient((data) => (data.sound = next), 'sound');
-      setSoundEnabled(next);
-    },
+    onclick: () => openSoundSettings(),
   });
   const menuButton = h('button.btn.ghost.icon-only', { title: t('top.menu'), 'aria-label': t('top.menu'), onclick: () => openMenu() }, icon('menu'));
   const topbar = h('header.topbar', null,
@@ -54,8 +53,8 @@ export function createDesk(app) {
   );
   metrics.you.root.classList.add('optional');
 
-  const navButtons = Object.fromEntries(PHASES.map((phase, index) => [phase, h('button', { onclick: () => go(phase), 'aria-label': t(`phases.${phase}`) }, h('span.step', null, String(index + 1)), icon(phase), h('span', null, t(`phases.${phase}`)))]));
-  const feedCanvas = h('canvas.feed-mini');
+  const navButtons = Object.fromEntries(PHASES.map((phase, index) => [phase, h('button', { onclick: () => go(phase), 'aria-label': t(`phases.${phase}`), 'data-tour': `nav-${phase}` }, h('span.step', null, String(index + 1)), icon(phase), h('span', null, t(`phases.${phase}`)))]));
+  const feedCanvas = h('canvas.feed-mini', { title: t('desk.feed'), role: 'button', tabindex: 0, onclick: () => openFeed(), onkeydown: (event) => event.key === 'Enter' && openFeed() });
   const feed = createCityFeed(feedCanvas, { seed: 3, label: 'CAM 12' });
   const nav = h('nav.nav', null, ...Object.values(navButtons), feedCanvas);
   const main = h('main.main');
@@ -101,9 +100,20 @@ export function createDesk(app) {
     return phase !== 'home' || store.draft().validated;
   }
 
+  function openFeed() {
+    const canvas = h('canvas.feed-big');
+    const big = createCityFeed(canvas, { seed: 3, label: 'CAM 12 · ' + t('desk.feedLabel') });
+    modal((box) => {
+      box.append(canvas, h('p.small.dim', null, t('desk.feedNote')));
+      big.setMood(feed.mood?.() ?? {});
+      big.start();
+    }, { className: 'feed-modal', onClose: () => big.stop() });
+  }
+
   function go(phase) {
     if (!phaseAllowed(phase)) {
       sfx.error();
+      toast(t('desk.homeLocked'));
       return;
     }
     if (store.draft().phase !== phase) store.setTransient((data) => (data.draft.phase = phase), 'phase');
@@ -159,7 +169,9 @@ export function createDesk(app) {
     const phase = store.draft().phase;
     for (const name of PHASES) {
       navButtons[name].classList.toggle('active', name === phase);
-      navButtons[name].disabled = !phaseAllowed(name);
+      navButtons[name].classList.toggle('locked', !phaseAllowed(name));
+      navButtons[name].setAttribute('aria-disabled', String(!phaseAllowed(name)));
+      navButtons[name].title = phaseAllowed(name) ? t(`phases.${name}`) : t('desk.homeLocked');
     }
     const current = store.state();
     const read = store.draft().read;
@@ -192,13 +204,16 @@ export function createDesk(app) {
           }, 'scene'),
       });
     }
+    if (element.isConnected && shouldRunTutorial()) stopTutorial = runTutorial();
   }
 
   async function onStore(reason) {
     if (reason === 'commit') {
       const current = store.state();
       const last = current.history.at(-1);
-      await playTransition({ month: current.outcome ? last.month : current.month, last, outcome: current.outcome });
+      const previous = current.history.at(-2);
+      const before = { atLarge: previous?.atLarge ?? criminalsAtLarge(world, { ...current, jailed: new Uint8Array(world.population.size) }, 1), unrest: previous?.unrest ?? 0 };
+      await playTransition({ month: current.outcome ? last.month : current.month, last, outcome: current.outcome, before });
       if (current.outcome) {
         app.show('ending');
         return;
@@ -241,6 +256,7 @@ export function createDesk(app) {
   }
 
   let unsubscribe = null;
+  let stopTutorial = null;
   return {
     element,
     mounted() {
@@ -251,6 +267,7 @@ export function createDesk(app) {
     },
     destroy() {
       unsubscribe?.();
+      stopTutorial?.();
       feed.stop();
       panel?.destroy?.();
     },

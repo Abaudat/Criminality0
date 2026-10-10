@@ -106,9 +106,7 @@ function playScene(id, vars, onSeen) {
       showSpeaker(speaker);
       const last = index === lines.length - 1;
       type(fill(line, vars), () => last && scene.replies && showReplies());
-      replace(controls,
-        h('button.btn.ghost.small', { onclick: (event) => { event.stopPropagation(); finish(); } }, t('scene.skip')),
-        h('button.btn.primary', { onclick: (event) => { event.stopPropagation(); advance(); } }, t('scene.next')));
+      replace(controls, h('button.btn.primary', { onclick: (event) => { event.stopPropagation(); advance(); } }, t('scene.next')));
       controls.lastChild.focus();
     };
 
@@ -119,10 +117,7 @@ function playScene(id, vars, onSeen) {
         event.stopPropagation();
         advance();
       }
-      if (event.key === 'Escape') {
-        event.stopPropagation();
-        if (!scene.replies) finish();
-      }
+      if (event.key === 'Escape') event.stopPropagation();
     };
     window.addEventListener('keydown', onKey, true);
     box.addEventListener('click', (event) => {

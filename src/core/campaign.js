@@ -1,5 +1,5 @@
 export const MONTHS = 12;
-export const SLOTS = [2, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4];
+export const SLOTS = [1, 2, 2, 3, 3, 3, 3, 4, 4, 4, 4, 4];
 export const POPULATION_DENOMINATOR = 10000;
 export const ZERO_THRESHOLD = 50;
 export const UNREST_LIMIT = 100;

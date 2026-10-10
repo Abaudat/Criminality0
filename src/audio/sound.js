@@ -12,12 +12,25 @@ let master = null;
 let musicBus = null;
 let sfxBus = null;
 let enabled = true;
+let volume = 0.7;
+let musicVolume = 0.5;
 let nextBar = 0;
 let bar = 0;
 let scheduler = 0;
 let shortNoise = null;
 
 const midi = (note) => 440 * Math.pow(2, (note - 69) / 12);
+
+function rainBuffer(seconds) {
+  const buffer = context.createBuffer(1, context.sampleRate * seconds, context.sampleRate);
+  const data = buffer.getChannelData(0);
+  let brown = 0;
+  for (let index = 0; index < data.length; index++) {
+    brown = (brown + 0.02 * (Math.random() * 2 - 1)) / 1.02;
+    data[index] = brown * 3;
+  }
+  return buffer;
+}
 
 function noiseBuffer(seconds) {
   const buffer = context.createBuffer(1, context.sampleRate * seconds, context.sampleRate);
@@ -33,13 +46,13 @@ function noiseBuffer(seconds) {
 
 function startRain() {
   const source = context.createBufferSource();
-  source.buffer = noiseBuffer(4);
+  source.buffer = rainBuffer(6);
   source.loop = true;
   const filter = context.createBiquadFilter();
   filter.type = 'lowpass';
-  filter.frequency.value = 1800;
+  filter.frequency.value = 700;
   const gain = context.createGain();
-  gain.gain.value = 0.22;
+  gain.gain.value = 0.05;
   source.connect(filter).connect(gain).connect(musicBus);
   source.start();
 }
@@ -156,11 +169,11 @@ export function initAudio() {
   if (!AudioContext) return;
   context = new AudioContext();
   master = context.createGain();
-  master.gain.value = enabled ? 0.8 : 0;
+  master.gain.value = enabled ? volume : 0;
   const compressor = context.createDynamicsCompressor();
   master.connect(compressor).connect(context.destination);
   musicBus = context.createGain();
-  musicBus.gain.value = 0.55;
+  musicBus.gain.value = musicVolume;
   musicBus.connect(master);
   sfxBus = context.createGain();
   sfxBus.gain.value = 0.7;
@@ -177,7 +190,17 @@ export function initAudio() {
 
 export function setSoundEnabled(value) {
   enabled = value;
-  if (master) master.gain.setTargetAtTime(value ? 0.8 : 0, context.currentTime, 0.1);
+  if (master) master.gain.setTargetAtTime(value ? volume : 0, context.currentTime, 0.1);
+}
+
+export function setVolume(value) {
+  volume = value;
+  if (master && enabled) master.gain.setTargetAtTime(value, context.currentTime, 0.05);
+}
+
+export function setMusicVolume(value) {
+  musicVolume = value;
+  if (musicBus) musicBus.gain.setTargetAtTime(value, context.currentTime, 0.05);
 }
 
 function tone(type, from, to, duration, peak, delay = 0) {

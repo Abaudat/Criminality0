@@ -25,6 +25,9 @@ function emptySave() {
     profile: null,
     lang: null,
     sound: true,
+    volume: 0.7,
+    music: 0.5,
+    tutorial: false,
     log: [],
     draft: freshDraft([]),
     past: [],
@@ -151,7 +154,7 @@ export function redo() {
 }
 
 export function newCareer(profile) {
-  const keep = { lang: save.lang, sound: save.sound, endings: save.endings };
+  const keep = { lang: save.lang, sound: save.sound, volume: save.volume, music: save.music, tutorial: save.tutorial, endings: save.endings };
   save = { ...emptySave(), ...keep, profile };
   emit('new');
 }

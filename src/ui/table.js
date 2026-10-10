@@ -4,6 +4,11 @@ import { sfx } from '../audio/sound.js';
 
 const BUFFER_ROWS = 8;
 
+export function fitWidth(label, rem, grow = false) {
+  const needed = Math.max(rem, [...label].length * 0.5 + 2.8);
+  return grow ? `minmax(${needed}rem, 1fr)` : `${needed}rem`;
+}
+
 export function createTable(options) {
   const { columns, rows, pinned, searchText, onClick, rowClass, onChange, footer } = options;
   const template = columns.map((column) => column.width).join(' ');
@@ -136,7 +141,7 @@ export function createTable(options) {
       const sorted = state.sort?.key === column.key;
       const filtered = Boolean(state.filters[column.key]);
       return h('div.cell', null,
-        column.sortValue ? h('button' + (sorted ? '.sorted' : ''), { onclick: () => toggleSort(column.key), title: t('table.sort') }, column.label, sorted ? (state.sort.dir > 0 ? ' ▲' : ' ▼') : '') : column.label,
+        column.sortValue ? h('button.sort-btn' + (sorted ? '.sorted' : ''), { onclick: () => toggleSort(column.key), title: `${t('table.sort')} · ${column.label}` }, h('span.label', null, column.label), sorted ? (state.sort.dir > 0 ? ' ▲' : ' ▼') : '') : column.label,
         column.filterValues ? h('button.filter-btn' + (filtered ? '.active' : ''), { onclick: (event) => openFilter(column, event.currentTarget), title: t('table.filter'), 'aria-label': `${t('table.filter')} ${column.label}` }, icon('filter')) : null);
     }));
   }

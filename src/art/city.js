@@ -239,6 +239,7 @@ export function createCityFeed(canvas, options = {}) {
     setMood(next) {
       mood = { ...mood, ...next };
     },
+    mood: () => mood,
     drawOnce(time = 1000) {
       draw(time);
     },

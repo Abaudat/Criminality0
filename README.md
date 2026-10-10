@@ -23,12 +23,12 @@ You are a Systems Architect at the Ministry of Civic Harmony. Every month you wr
 Your own profile is pinned at the top of the database, evaluated by the same rules. You've done nothing wrong. But your district, your debts, your sister and the people you call at night are all columns now.
 
 <p align="center">
-  <img src="assets/screen-shift.png" alt="The shift: a rule editor on the left, the crime blotter and its breakdown on the right" width="100%">
+  <img src="assets/screen-shift.png" alt="The shift: a rule editor on the left, the citizen registry and past crime reports on the right" width="100%">
 </p>
 
 ## Read the city
 
-The previous administration left you its crime blotter: hundreds of witness statements — *a man, in his twenties, shabby clothes, Stack 9.* Filter it, sort it, read the breakdown, and the hidden patterns surface. Write a hypothesis, watch the live verdict sweep through the registry, validate, and find out the next morning how many guilty it actually caught.
+The previous administration left you its crime reports: hundreds of witness statements — *a man, in his twenties, shabby clothes, Stack 9.* Only the loud crimes get reported often; the quiet ones barely leave a trace. Filter, sort, and work out who keeps showing up. Write a hypothesis, watch the live verdict sweep through the registry, validate, and find out the next morning how many guilty it actually caught.
 
 Every crime in the city comes from rules hidden at design time. Reaching zero is **provably possible** — the question is what you'll do to get there.
 
@@ -54,9 +54,10 @@ The final alignment chart animates your path month by month and exports as a **G
 
 - 11,000 procedurally generated citizens with dithered surveillance portraits, families and contact graphs — identical for every player
 - A rules language as small as a hypothesis and as sharp as a policy: conditions, `NOT`, value sets, contact counts
-- A filterable, sortable, full-text searchable registry and blotter with live per-field breakdowns
+- A filterable, sortable, full-text searchable registry and crime reports: you do the inference, nobody does it for you
+- A hands-on induction that walks you through writing your first rule
 - Undo / redo everything, autosave after every action, restart any month from the timeline
-- Synth-noir jazz and rain, generated live in your browser
+- Synth-noir jazz and rain, generated live in your browser, with volume and music sliders
 - Mouse, touch and keyboard (`1–4` phases · `Ctrl+Z / Ctrl+Y` · `/` search · `Esc` menu)
 
 ---

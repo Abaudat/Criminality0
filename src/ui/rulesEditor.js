@@ -6,6 +6,7 @@ import { FIELD_BY_KEY, fieldsUnlockedAt, contactsUnlockedAt } from '../core/fiel
 import { slotsFor } from '../core/campaign.js';
 import { fieldBlock, contactBlock, rule, VERDICTS } from '../core/rules.js';
 import { sfx } from '../audio/sound.js';
+import { confirmModal } from './overlay.js';
 
 export function describeBlock(block) {
   if (block.type === 'contacts') {
@@ -55,15 +56,18 @@ export function createRulesEditor(ctx) {
     const current = store.state();
     const draft = store.draft();
     const verdict = VERDICTS[result.playerVerdict];
-    const validate = h('button.btn.primary', {
+    const ready = result.matches.some((list) => list.length > 0) && !result.overCap;
+    const validate = h('button.btn.primary.validate' + (ready ? '.ready' : ''), {
       disabled: result.overCap || draft.validated,
-      onclick: () => {
+      onclick: async () => {
+        const idle = result.matches.every((list) => list.length === 0);
+        if (idle && !(await confirmModal(t(draft.rules.length ? 'shift.confirmIdle' : 'shift.confirmEmpty'), t('shift.confirmValidate'), t('title.cancel')))) return;
         store.edit((data) => (data.validated = true));
         sfx.stamp();
         element.classList.add('shake');
         setTimeout(() => element.classList.remove('shake'), 300);
       },
-    }, icon('lock'), t('shift.validate'));
+    }, icon('lock'), h('span', null, h('span.validate-main', null, t('shift.validate')), h('span.validate-sub', null, t('shift.validateSub'))));
     replace(summary,
       gauge(t('shift.watchList'), result.watched, result.watchCap, result.overCap ? 'over' : ''),
       gauge(t('shift.detentionList'), result.detained, 0, 'detain'),
@@ -74,7 +78,7 @@ export function createRulesEditor(ctx) {
           h('span.stamp.slam', { style: { fontSize: '1.4rem', transform: 'rotate(-4deg)' } }, t('shift.lockedStamp')),
           h('button.btn.small', { onclick: () => store.undo() }, t('shift.reopen')),
           h('button.btn.primary', { style: { marginLeft: 'auto' }, onclick: () => ctx.go('home') }, t('shift.toHome'), icon('arrow')))
-        : h('div', { style: { display: 'flex', justifyContent: 'flex-end' } }, validate),
+        : h('div.validate-row', null, validate),
     );
   }
 
@@ -100,6 +104,7 @@ export function createRulesEditor(ctx) {
       h('div.block-head', null, fieldLabel(field.key), h('span.op', null, describeBlock(block)), h('span.grow'), notButton, removeButton),
       h('div.values', null, field.values.map((value) => h('button.chip' + (block.values.includes(value) ? '.on' : ''), {
         disabled: locked,
+        'data-tour': `value-${field.key}-${value}`,
         onclick: () => {
           sfx.toggle();
           set((target) => {
@@ -122,7 +127,7 @@ export function createRulesEditor(ctx) {
     const addMenu = locked ? null : h('div.add-menu', null,
       h('span.small.dim', { style: { alignSelf: 'center' } }, icon('plus'), t('shift.addCondition')),
       fieldsUnlockedAt(current.month).filter((field) => !usedFields.has(field.key)).map((field) =>
-        h('button.chip', { onclick: () => { sfx.click(); update((draft) => draft.rules[index].blocks.push(fieldBlock(field.key, []))); } }, fieldLabel(field.key))),
+        h('button.chip', { 'data-tour': `add-${field.key}`, onclick: () => { sfx.click(); update((draft) => draft.rules[index].blocks.push(fieldBlock(field.key, []))); } }, fieldLabel(field.key))),
       contactsUnlockedAt(current.month) && !hasContacts
         ? h('button.chip', { onclick: () => { sfx.click(); update((draft) => draft.rules[index].blocks.push(contactBlock('criminal', 3))); } }, fieldLabel('contacts'))
         : null);

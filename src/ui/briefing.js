@@ -31,14 +31,19 @@ function changesFor(month) {
 function mugshot(ctx, id, kind, index, usedLines) {
   const age = valueLabel('age', baseValue('age', id));
   const occupation = valueLabel('occupation', baseValue('occupation', id));
-  const contacts = world.population.contactStart[id + 1] - world.population.contactStart[id];
   const stampClass = kind === 'innocent' ? '.innocent' : kind === 'caught' ? '.caught' : '';
   return h('button.mugshot', { style: { '--tilt': `${((id % 7) - 3) * 0.6}deg` }, onclick: () => ctx.openDossier(id), title: nameOf(id) },
     h('div.photo', null, h('img', { src: portraitOf(id, 'paper'), alt: '', loading: 'lazy' }), h(`div.stamp${stampClass}`, { style: { animationDelay: `${index * 40}ms` }, class: 'slam' }, t(`briefing.${kind}`))),
     h('div.name', null, nameOf(id)),
     h('div.meta', null, `${age} · ${occupation}`),
-    h('div.meta', null, t('briefing.contacts', { n: contacts })),
+    h('div.crime' + (kind === 'innocent' ? '.none' : ''), null, kind === 'innocent' ? t('briefing.noCrime') : t(`crimes.${world.population.crime[id]}`)),
     h('div.line', null, humanLineOf(id, usedLines)));
+}
+
+function latestFree(role, month) {
+  const lines = s(`poi.${role}.free`) ?? {};
+  for (let at = month; at >= 1; at--) if (lines[at]) return lines[at];
+  return null;
 }
 
 export function createBriefing(ctx) {
@@ -93,7 +98,7 @@ export function createBriefing(ctx) {
   }
 
   const updates = poiUpdates(world, current, month).map((update) => {
-    const text = update.key === 'free' ? s(`poi.${update.role}.free.${month}`) : s(`poi.${update.role}.${update.key}`);
+    const text = update.key === 'free' ? latestFree(update.role, month) : s(`poi.${update.role}.${update.key}`);
     return text ? { ...update, text } : null;
   }).filter(Boolean);
   if (updates.length) {

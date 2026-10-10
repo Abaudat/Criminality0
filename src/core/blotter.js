@@ -5,6 +5,17 @@ const OBVIOUS_CHANCE = 0.7;
 const HIDDEN_CHANCE = 0.2;
 const MIN_REVEALED = 2;
 const MAX_REVEALED = 4;
+const DEFAULT_REPORT_RATE = 0.4;
+
+export const REPORT_RATES = {
+  shoplifting: 0.5, burglary: 0.55, cargotheft: 0.45, fencing: 0.35, rationfraud: 0.3, creditfraud: 0.25,
+  embezzlement: 0.2, insidertrading: 0.2, equipmenttheft: 0.45, foodtheft: 0.5, pharmacytheft: 0.5,
+  extortion: 0.3, smuggling: 0.2, narcotics: 0.3, intrusion: 0.15, dataleak: 0.15,
+};
+
+export function isReported(id, month, crime) {
+  return createRandom(hashSeed('reported', id, month)).chance(REPORT_RATES[crime] ?? DEFAULT_REPORT_RATE);
+}
 
 export function revealFields(id, month, unlocked) {
   const random = createRandom(hashSeed('blotter', id, month));
@@ -24,6 +35,7 @@ export function blotterFor(world, state, month) {
   for (let id = 0; id < size; id++) {
     if (!guiltyFrom[id] || guiltyFrom[id] > activeMonth || arrival[id] > activeMonth) continue;
     if (state.jailed[id] && state.jailed[id] <= month) continue;
+    if (!isReported(id, month, crime[id])) continue;
     const keys = revealFields(id, month, unlocked);
     const fields = {};
     for (const key of keys) fields[key] = unlocked.find((field) => field.key === key).values[columns[key][id]];
