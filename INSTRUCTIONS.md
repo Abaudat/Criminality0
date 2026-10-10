@@ -37,7 +37,7 @@ Create the game as described in SPEC.md. Take your own decisions when data is mi
 - Do not create additional text-only files to explain your process, abandoned directions, issues, or other non-timeless information. Do not edit the sources of truth such as [SPEC.md](http://SPEC.md) or TECHNICAL\_ARCHITECTURE.md
 - Avoid caveats, exceptions, edge cases, etc. Those should be solved holistically through systems engineering
 - Create a very succinct, high-level description of the different flows somewhere at the start, and use that as a base for implementation
-- Make the README a frontpage for the game that makes first-time repo visitors want to play the game, not a technical document
+- Make the README a frontpage for the game that makes first-time repo visitors want to play the game, not a technical document (include the link!)
 
 
 
