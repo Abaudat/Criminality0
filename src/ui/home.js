@@ -20,7 +20,7 @@ export function createHome(ctx) {
     h('div.panel-head', null, h('h1', null, t('home.title')), h('span.dim', null, t('home.lockedRules'))),
     h('div.home', null,
       h('div', null, h('h2.section', null, t('home.choices')), choicesHost),
-      h('div', null, windowCanvas, h('h2.section', null, t('home.budget')), ledger, h('h2.section', null, t('home.profile')), risk)));
+      h('div', null, windowCanvas, h('h2.section', null, t('home.profile')), risk, h('h2.section', null, t('home.budget')), ledger)));
 
   function endMonth() {
     sfx.stamp();

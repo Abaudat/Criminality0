@@ -454,6 +454,8 @@ h2.section:first-child { margin-top: 0; }
   .analysis { border-left: none; border-top: 1px solid var(--line); max-height: 35%; }
   .ending { grid-template-columns: 1fr; }
   .home { grid-template-columns: 1fr; }
+  .home > div:last-child { order: -1; }
+  .home .window-view { display: none; }
 }
 
 @media (max-width: 800px), (max-height: 560px) {
@@ -484,6 +486,9 @@ h2.section:first-child { margin-top: 0; }
   .gauge { grid-template-columns: auto 1fr auto; }
   .rules-summary > .small.red { grid-column: 1 / -1; }
   .scene-overlay { padding: 0.4rem; }
+  .ending { grid-template-columns: minmax(10rem, calc(100vh - 6rem)) 1fr; gap: 1rem; }
+  .ending.failure { grid-template-columns: 1fr; }
+  .ending .actions .btn { min-height: 2.2rem; }
 }
 
 @media (max-height: 420px) {
