@@ -79,7 +79,7 @@ export function createBlotter() {
   });
 
   return {
-    element: h('div.blotter-wrap', null, h('p.blotter-intro', null, t('blotter.intro')), table.element),
+    element: h('div.blotter-wrap', null, table.element),
     mounted: () => table.refresh({ data: true }),
     refresh: () => {},
     destroy: () => table.destroy(),

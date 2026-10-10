@@ -1,7 +1,7 @@
 import { h, replace } from './dom.js';
 import { s, t, fill } from './i18n.js';
 import { world, getSave } from './store.js';
-import { portraitOf } from './citizen.js';
+import { portraitOf, nameOf } from './citizen.js';
 import { portraitUrl } from '../art/portrait.js';
 import { hashSeed } from '../core/random.js';
 import { markSvg } from '../art/logo.js';
@@ -71,7 +71,7 @@ function playScene(id, vars, onSeen) {
       if (speaker === currentSpeaker) return;
       currentSpeaker = speaker;
       replace(portrait, speakerPortrait(speaker));
-      speakerName.textContent = s(`speakers.${speaker}`);
+      speakerName.textContent = world.roles[speaker] !== undefined ? nameOf(world.roles[speaker]) : s(`speakers.${speaker}`);
       callTag.textContent = PHONE_SPEAKERS.has(speaker) ? '☎ ' + t('scene.reply').toUpperCase() : '';
     };
 

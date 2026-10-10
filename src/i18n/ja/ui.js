@@ -129,7 +129,6 @@ export default {
     tip: '情報',
     letter: '手紙',
     asks: '求める判定',
-    optionalNote: '任意。無視するのもまた、一つの答えだ。',
     forcedNote: '二つの陣営、一人の市民。どの判定も満足させられるのは片方だけ――何もしないことも含めて。',
     liveVerdict: '現在のルールでは',
     satisfied: '要望どおり',
@@ -232,7 +231,6 @@ export default {
     month: '月',
     crime: '罪状',
     previous: '前政権',
-    intro: '過去の月に通報された犯罪と、目撃者が見たもの。派手な犯罪はよく通報され、静かな犯罪はめったに通報されない。並べ替えと絞り込みで、繰り返し現れる者を探せ。',
     unseen: '目撃なし',
     associate: '有罪判決を受けた犯罪者の知人',
     witness: '目撃者',
@@ -284,7 +282,6 @@ export default {
   desk: {
     feed: 'カメラ12を開く',
     feedLabel: 'LIVE',
-    feedNote: 'カメラ12、カルダー通り。街はあなたのリストに応える。監視対象は琥珀色、拘束は赤、不穏度が上がれば煙。',
     homeLocked: '勤務でルールを確定すると、帰宅できる。',
   },
   tutorial: {

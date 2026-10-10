@@ -364,7 +364,6 @@ h2.section:first-child { margin-top: 0; }
 .exempt { font-size: 0.72rem; color: var(--mute); padding: 0.4rem 0.6rem; border-top: 1px solid var(--line); }
 
 .blotter-wrap { display: flex; flex-direction: column; min-height: 0; flex: 1; }
-.blotter-intro { margin: 0; padding: 0.45rem 0.7rem; font-size: 0.75rem; color: var(--cyan); border-bottom: 1px solid var(--line); }
 
 /* ---------- dossier / modal ---------- */
 .overlay { position: fixed; inset: 0; z-index: 50; background: rgba(6, 9, 10, 0.72); display: grid; place-items: center; padding: 1rem; animation: fade 0.15s; }

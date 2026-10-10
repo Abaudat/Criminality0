@@ -129,7 +129,6 @@ export default {
     tip: 'Soplo',
     letter: 'Carta',
     asks: 'Pide',
-    optionalNote: 'Opcional. Ignorarla también es una respuesta.',
     forcedNote: 'Dos partes, un ciudadano. Cada veredicto satisface exactamente a una de ellas; no hacer nada, también.',
     liveVerdict: 'Con tus reglas actuales',
     satisfied: 'Satisfecha',
@@ -232,7 +231,6 @@ export default {
     month: 'Mes',
     crime: 'Delito',
     previous: 'Admin. ant.',
-    intro: 'Delitos denunciados en meses anteriores, con lo que vieron los testigos. Los delitos ruidosos se denuncian a menudo; los silenciosos, rara vez. Ordena y filtra para encontrar a quién se repite.',
     unseen: 'no visto',
     associate: 'Allegado conocido de un criminal condenado',
     witness: 'Testigo',
@@ -284,7 +282,6 @@ export default {
   desk: {
     feed: 'Abrir cámara 12',
     feedLabel: 'EN DIRECTO',
-    feedNote: 'Cámara 12, calle Calder. La ciudad responde a tus listas: ámbar para los vigilados, rojo para las detenciones, humo cuando sube el malestar.',
     homeLocked: 'Casa se abre cuando validas tus reglas en el Turno.',
   },
   tutorial: {

@@ -129,7 +129,6 @@ export default {
     tip: 'Tip',
     letter: 'Letter',
     asks: 'Asks for',
-    optionalNote: 'Optional. Ignoring it is also an answer.',
     forcedNote: 'Two parties, one citizen. Every verdict satisfies exactly one side — doing nothing too.',
     liveVerdict: 'Under your current rules',
     satisfied: 'Satisfied',
@@ -232,7 +231,6 @@ export default {
     month: 'Month',
     crime: 'Crime',
     previous: 'Prev. admin',
-    intro: 'Crimes reported in previous months, with what witnesses saw. Loud crimes get reported often, quiet ones rarely. Sort and filter to find who keeps showing up.',
     unseen: 'not seen',
     associate: 'Known associate of a convicted criminal',
     witness: 'Witness',
@@ -284,7 +282,6 @@ export default {
   desk: {
     feed: 'Open camera 12',
     feedLabel: 'LIVE',
-    feedNote: 'Camera 12, Calder Street. The city answers your lists: amber for the watched, red for detentions, smoke when unrest rises.',
     homeLocked: 'Home opens once you validate your rules in the Shift.',
   },
   tutorial: {

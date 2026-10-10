@@ -129,7 +129,6 @@ export default {
     tip: 'Tuyau',
     letter: 'Lettre',
     asks: 'Demande',
-    optionalNote: 'Facultatif. L’ignorer, c’est aussi répondre.',
     forcedNote: 'Deux parties, un citoyen. Chaque verdict ne satisfait qu’un seul camp — ne rien faire aussi.',
     liveVerdict: 'Selon vos règles actuelles',
     satisfied: 'Satisfait',
@@ -232,7 +231,6 @@ export default {
     month: 'Mois',
     crime: 'Crime',
     previous: 'Anc. admin',
-    intro: 'Les crimes signalés lors des mois précédents, et ce qu’ont vu les témoins. Les crimes bruyants sont souvent signalés, les discrets rarement. Triez et filtrez pour trouver qui revient sans cesse.',
     unseen: 'non vu',
     associate: 'Fréquentation connue d’un criminel condamné',
     witness: 'Témoin',
@@ -284,7 +282,6 @@ export default {
   desk: {
     feed: 'Ouvrir la caméra 12',
     feedLabel: 'DIRECT',
-    feedNote: 'Caméra 12, rue Calder. La ville répond à vos listes : ambre pour les surveillés, rouge pour les détentions, fumée quand la colère monte.',
     homeLocked: 'La Maison s’ouvre une fois vos règles validées dans le Service.',
   },
   tutorial: {

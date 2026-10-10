@@ -10,11 +10,11 @@ test('the first morning: Crane briefs you and the old reports point at Stack 9 s
   const state = initialState(world);
   assert.deepEqual(scenesFor(world, state, 1), ['craneIntro']);
   const reports = blotterFor(world, state, 0);
-  assert.ok(reports.length > 200 && reports.length < 400);
+  assert.ok(reports.length > 60 && reports.length < 160);
   assert.ok(reports.filter((report) => report.crime === 'shoplifting').length > reports.filter((report) => report.crime === 'insidertrading').length * 2);
   const shoplifting = reports.filter((report) => report.crime === 'shoplifting' && report.fields.district);
   const stack9 = shoplifting.filter((report) => report.fields.district === 'stack9').length;
-  assert.ok(stack9 / shoplifting.length > 0.9);
+  assert.ok(stack9 / shoplifting.length >= 0.8);
 });
 
 test('a blanket poverty rule is too broad to watch, a refined one fits', () => {

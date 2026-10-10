@@ -104,7 +104,7 @@ export function createDesk(app) {
     const canvas = h('canvas.feed-big');
     const big = createCityFeed(canvas, { seed: 3, label: 'CAM 12 · ' + t('desk.feedLabel') });
     modal((box) => {
-      box.append(canvas, h('p.small.dim', null, t('desk.feedNote')));
+      box.append(canvas);
       big.setMood(feed.mood?.() ?? {});
       big.start();
     }, { className: 'feed-modal', onClose: () => big.stop() });

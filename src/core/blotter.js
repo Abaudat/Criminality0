@@ -1,16 +1,16 @@
 import { fieldsUnlockedAt } from './fields.js';
 import { createRandom, hashSeed } from './random.js';
 
-const OBVIOUS_CHANCE = 0.7;
-const HIDDEN_CHANCE = 0.2;
-const MIN_REVEALED = 2;
+const OBVIOUS_CHANCE = 0.35;
+const HIDDEN_CHANCE = 0.08;
+const MIN_REVEALED = 1;
 const MAX_REVEALED = 4;
-const DEFAULT_REPORT_RATE = 0.4;
+const DEFAULT_REPORT_RATE = 0.15;
 
 export const REPORT_RATES = {
-  shoplifting: 0.5, burglary: 0.55, cargotheft: 0.45, fencing: 0.35, rationfraud: 0.3, creditfraud: 0.25,
-  embezzlement: 0.2, insidertrading: 0.2, equipmenttheft: 0.45, foodtheft: 0.5, pharmacytheft: 0.5,
-  extortion: 0.3, smuggling: 0.2, narcotics: 0.3, intrusion: 0.15, dataleak: 0.15,
+  shoplifting: 0.2, burglary: 0.22, cargotheft: 0.18, fencing: 0.14, rationfraud: 0.12, creditfraud: 0.1,
+  embezzlement: 0.08, insidertrading: 0.08, equipmenttheft: 0.18, foodtheft: 0.2, pharmacytheft: 0.2,
+  extortion: 0.12, smuggling: 0.08, narcotics: 0.12, intrusion: 0.06, dataleak: 0.06,
 };
 
 export function isReported(id, month, crime) {

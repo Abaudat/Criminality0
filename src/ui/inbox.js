@@ -83,7 +83,6 @@ export function createInbox(ctx) {
       const wants = item.request.wants;
       replace(reader,
         memo(text, h('div.ask', null, t('inbox.asks'), ': ', wants.map((want) => t(`wants.${want}`)).join(' / '))),
-        h('p.small.dim', null, t('inbox.optionalNote')),
         h('div.targets', null, item.targets.map((id) => targetCard(id, current, result, wants))));
       return;
     }
