@@ -34,9 +34,9 @@ export function blotterFor(world, state, month) {
         if (state.jailed[other] && state.jailed[other] <= month) associate = true;
       }
     }
-    const caseNumber = hashSeed('case', id, month) % 90000 + 10000;
-    reports.push({ caseNumber, month, crime: crime[id], fields, associate, suspect: id, registry: registry[id] });
+    reports.push({ order: hashSeed('case', id, month), month, crime: crime[id], fields, associate, suspect: id, registry: registry[id] });
   }
-  reports.sort((a, b) => a.caseNumber - b.caseNumber);
+  reports.sort((a, b) => a.order - b.order);
+  reports.forEach((report, index) => (report.caseNumber = (month + 1) * 10000 + index));
   return reports;
 }

@@ -92,7 +92,7 @@ export default {
     report: 'Report',
     monthsLeft: 'Months left',
     criminality: 'Criminality',
-    atLarge: '{n} criminals at large',
+    atLarge: '{n} criminals at large · 0% needs fewer than 50',
     unrest: 'Unrest',
     unrestNote: '+1 per innocent detained · cools 30%/month · riots at 100',
     falsePositive: 'False positives',
@@ -258,7 +258,7 @@ export default {
     once: 'One-time',
     lockedRules: 'Rules are locked.',
     choice: {
-      housing: { label: 'Housing', oldtown: 'Stay in Old Town', stack9: 'Move to Stack 9', oldtownNote: 'Rent 1,200', stack9Note: 'Rent 500 · District becomes Stack 9', move: 'Moving fee 300' },
+      housing: { label: 'Housing', oldtown: 'Live in Old Town', stack9: 'Live in Stack 9', oldtownNote: 'Rent 1,200', stack9Note: 'Rent 500 · District becomes Stack 9', move: 'Moving fee 300' },
       food: { label: 'Food', canteen: 'Ministry canteen', blackmarket: 'Black market', canteenNote: '600 · legal, bland', blackmarketNote: '250 · illegal if you are watched' },
       support: { label: 'Mira', none: 'Send nothing', money: 'Send her 400', noneNote: 'She says she’s fine', moneyNote: 'Rent, insulin, egg' },
       contact: { label: 'Keep in touch', keep: 'Keep calling Mira', cut: 'Cut contact', keepNote: 'She stays in your contacts', cutNote: 'Removes her from your contacts' },

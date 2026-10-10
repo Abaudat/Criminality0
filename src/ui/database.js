@@ -20,7 +20,7 @@ export function createDatabase(ctx) {
   const fieldColumns = FIELDS.filter((field) => field.unlock <= month).map((field) => ({
     key: field.key,
     label: fieldLabel(field.key),
-    width: field.key === 'medical' || field.key === 'occupation' || field.key === 'citizenship' ? 'minmax(7.5rem, 1fr)' : field.key === 'sex' || field.key === 'record' ? '4.6rem' : '6.2rem',
+    width: field.key === 'medical' || field.key === 'occupation' || field.key === 'citizenship' ? 'minmax(6.5rem, 1fr)' : field.key === 'sex' || field.key === 'record' ? '4rem' : '5.4rem',
     render: (id) => valueLabel(field.key, viewValue(result().view, field.key, id)),
     sortValue: (id) => result().view.columns[field.key][id],
     filterOf: (id) => viewValue(result().view, field.key, id),
@@ -29,8 +29,8 @@ export function createDatabase(ctx) {
 
   const columns = [
     { key: 'photo', label: '', width: '2.6rem', render: (id) => h('img', { src: portraitOf(id, current().jailed[id] ? 'paper' : 'terminal'), alt: '', loading: 'lazy' }) },
-    { key: 'name', label: t('table.name'), width: 'minmax(10rem, 1.4fr)', render: (id) => (id === player ? [h('b.cyan', null, t('table.you')), ' ', nameOf(id)] : nameOf(id)), sortValue: (id) => nameOf(id) },
-    { key: 'registry', label: t('table.registry'), width: '5.4rem', render: (id) => registryOf(id), sortValue: (id) => population.registry[id] },
+    { key: 'name', label: t('table.name'), width: 'minmax(8.5rem, 1.2fr)', render: (id) => (id === player ? [h('b.cyan', null, t('table.you')), ' ', nameOf(id)] : nameOf(id)), sortValue: (id) => nameOf(id) },
+    { key: 'registry', label: t('table.registry'), width: '4.8rem', render: (id) => registryOf(id), sortValue: (id) => population.registry[id] },
     ...fieldColumns,
     ...(contactsUnlockedAt(month)
       ? [{

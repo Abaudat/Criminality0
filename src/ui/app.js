@@ -31,6 +31,11 @@ export function startApp(root) {
     initAudio();
     const typing = event.target instanceof HTMLInputElement || event.target instanceof HTMLTextAreaElement;
     if (event.key === 'Escape') {
+      const popover = document.querySelector('.filter-pop');
+      if (popover) {
+        popover.remove();
+        return;
+      }
       if (closeTopModal()) return;
       current?.onEscape?.();
       return;

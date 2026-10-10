@@ -4,14 +4,14 @@ export const TAIL = 'tail';
 export const TIP = 'tip';
 
 export const REGIONS = [
-  { id: 'c1', kind: CORE, crime: 'shoplifting', active: 1, guilty: 90, innocent: 15, where: { district: ['stack9'], occupation: ['unemployed'], worth: ['neg'], record: ['yes'] } },
-  { id: 'c2', kind: CORE, crime: 'embezzlement', active: 1, guilty: 90, innocent: 15, where: { district: ['spire'], occupation: ['state'], worth: ['high'] } },
-  { id: 'c3', kind: CORE, crime: 'cargotheft', active: 1, guilty: 90, innocent: 15, where: { district: ['docks'], occupation: ['laborer'], sex: ['m'], age: ['18-29'] } },
-  { id: 'c4', kind: CORE, crime: 'burglary', active: 1, guilty: 90, innocent: 15, where: { district: ['stack4'], occupation: ['unemployed'], sex: ['m'], age: ['18-29', '30-44'] } },
-  { id: 'c5', kind: CORE, crime: 'creditfraud', active: 1, guilty: 90, innocent: 15, where: { district: ['midtown'], occupation: ['office'], worth: ['neg'] } },
-  { id: 'c6', kind: CORE, crime: 'fencing', active: 1, guilty: 90, innocent: 15, where: { district: ['oldtown'], occupation: ['service'], age: ['18-29'], record: ['yes'] } },
-  { id: 'c7', kind: CORE, crime: 'rationfraud', active: 1, guilty: 90, innocent: 15, where: { district: ['stack4', 'docks'], occupation: ['unemployed'], age: ['65+'], worth: ['low'] } },
-  { id: 'c8', kind: CORE, crime: 'insidertrading', active: 1, guilty: 90, innocent: 15, where: { district: ['midtown'], occupation: ['executive'], age: ['30-44'], worth: ['high'] } },
+  { id: 'c1', kind: CORE, crime: 'shoplifting', active: 1, guilty: 110, innocent: 14, where: { district: ['stack9'], occupation: ['unemployed'], worth: ['neg'], record: ['yes'] } },
+  { id: 'c2', kind: CORE, crime: 'embezzlement', active: 1, guilty: 70, innocent: 20, where: { district: ['spire'], occupation: ['state'], worth: ['high'] } },
+  { id: 'c3', kind: CORE, crime: 'cargotheft', active: 1, guilty: 95, innocent: 22, where: { district: ['docks'], occupation: ['laborer'], sex: ['m'], age: ['18-29'] } },
+  { id: 'c4', kind: CORE, crime: 'burglary', active: 1, guilty: 85, innocent: 10, where: { district: ['stack4'], occupation: ['unemployed'], sex: ['m'], age: ['18-29', '30-44'] } },
+  { id: 'c5', kind: CORE, crime: 'creditfraud', active: 1, guilty: 100, innocent: 25, where: { district: ['midtown'], occupation: ['office'], worth: ['neg'] } },
+  { id: 'c6', kind: CORE, crime: 'fencing', active: 1, guilty: 75, innocent: 12, where: { district: ['oldtown'], occupation: ['service'], age: ['18-29'], record: ['yes'] } },
+  { id: 'c7', kind: CORE, crime: 'rationfraud', active: 1, guilty: 80, innocent: 18, where: { district: ['stack4', 'docks'], occupation: ['unemployed'], age: ['65+'], worth: ['low'] } },
+  { id: 'c8', kind: CORE, crime: 'insidertrading', active: 1, guilty: 105, innocent: 12, where: { district: ['midtown'], occupation: ['executive'], age: ['30-44'], worth: ['high'] } },
 
   { id: 'e1', kind: EVENT, crime: 'equipmenttheft', active: 4, guilty: 60, innocent: 10, where: { district: ['stack4'], occupation: ['laborer'], worth: ['neg'] } },
   { id: 'e2', kind: EVENT, crime: 'foodtheft', active: 5, guilty: 80, innocent: 14, refugees: true, where: { district: ['oldtown'], occupation: ['unemployed'], citizenship: ['refugee'] } },

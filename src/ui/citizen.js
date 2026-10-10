@@ -38,10 +38,18 @@ export function portraitOf(id, tone = 'terminal') {
   );
 }
 
-export function humanLineOf(id) {
+export function humanLineOf(id, used = null) {
   const age = population.columns.age[id];
   const pool = s(`humanLines.${age === 0 ? 'young' : age === 3 ? 'old' : 'adult'}`);
-  return pool[hashSeed('line', id) % pool.length];
+  const start = hashSeed('line', id) % pool.length;
+  for (let offset = 0; offset < pool.length; offset++) {
+    const line = pool[(start + offset) % pool.length];
+    if (!used || !used.has(line)) {
+      used?.add(line);
+      return line;
+    }
+  }
+  return pool[start];
 }
 
 export function profileText(view, id, month) {

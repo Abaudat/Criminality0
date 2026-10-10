@@ -112,7 +112,8 @@ export function createRulesEditor(ctx) {
   function ruleCard(index, entry, locked) {
     const result = store.monthResult();
     const current = store.state();
-    const last = current.history.at(-1)?.ruleStats[index];
+    const previous = current.history.at(-1);
+    const last = previous && JSON.stringify(previous.rules[index]) === JSON.stringify(entry) ? previous.ruleStats[index] : null;
     const matched = result.matches[index]?.length ?? 0;
     const matchesPlayer = result.matches[index]?.includes(world.roles.player);
     const usedFields = new Set(entry.blocks.filter((block) => block.type === 'field').map((block) => block.field));

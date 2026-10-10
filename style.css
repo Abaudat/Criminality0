@@ -342,7 +342,7 @@ h2.section:first-child { margin-top: 0; }
 .cell { padding: 0 0.45rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cell img { width: 1.7rem; height: 1.9rem; image-rendering: pixelated; display: block; }
 .vt-empty { padding: 2rem; text-align: center; color: var(--mute); }
-.filter-pop { position: fixed; z-index: 60; background: var(--ink); border: 1px solid var(--phos); border-radius: var(--radius); padding: 0.5rem; display: flex; flex-direction: column; gap: 0.3rem; max-height: 60vh; overflow: auto; min-width: 12rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); }
+.filter-pop { position: fixed; z-index: 45; background: var(--ink); border: 1px solid var(--phos); border-radius: var(--radius); padding: 0.5rem; display: flex; flex-direction: column; gap: 0.3rem; max-height: 60vh; overflow: auto; min-width: 12rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); }
 .filter-pop label { display: flex; gap: 0.5rem; align-items: center; font-size: 0.82rem; min-height: 2rem; cursor: pointer; }
 .filter-pop label input { accent-color: var(--phos); width: 1.1rem; height: 1.1rem; }
 .filter-pop .row { display: flex; gap: 0.3rem; }
@@ -513,3 +513,6 @@ h2.section:first-child { margin-top: 0; }
 
 .blotter-wrap > .vt, .workspace > div > .vt { min-width: 0; }
 .blotter-row-detail { white-space: normal; }
+
+.chip:disabled { cursor: default; }
+.chip:disabled:not(.on):hover { border-color: var(--line); color: var(--mute); }

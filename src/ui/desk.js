@@ -74,9 +74,9 @@ export function createDesk(app) {
     addRule(rule) {
       const current = store.state();
       const rules = store.draft().rules;
-      if (rules.length >= slotsFor(current.month)) {
+      if (store.draft().validated || rules.length >= slotsFor(current.month)) {
         sfx.error();
-        toast(t('inbox.noSlot'));
+        toast(t(store.draft().validated ? 'shift.validated' : 'inbox.noSlot'));
         return false;
       }
       store.edit((draft) => {
@@ -187,6 +187,8 @@ export function createDesk(app) {
           store.setTransient((data) => {
             data.draft.seenScenes.push(id);
             if (reply !== undefined) data.draft.replies[id] = reply;
+            if (id === 'sisterCall' && reply === 0) data.draft.choices.support = 'money';
+            if (id === 'sisterUndocumented' && reply === 0) data.draft.choices.residency = 'pay';
           }, 'scene'),
       });
     }

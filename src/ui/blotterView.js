@@ -86,7 +86,7 @@ export function createBlotter() {
     for (const index of visible) crimeCounts.set(reports[index].crime, (crimeCounts.get(reports[index].crime) ?? 0) + 1);
     if (crimeCounts.size > 1) {
       blocks.push(h('h4', null, t('blotter.crime')));
-      const sorted = [...crimeCounts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 8);
+      const sorted = [...crimeCounts.entries()].sort((a, b) => b[1] - a[1]);
       for (const [crime, count] of sorted) blocks.push(barRow(t(`crimes.${crime}`), count, visible.length, false, () => table.setFilter('crime', [crime])));
     }
     for (const field of fields) {

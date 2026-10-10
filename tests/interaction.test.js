@@ -22,12 +22,12 @@ test('a blanket poverty rule is too broad to watch, a refined one fits', () => {
   assert.ok(broad.overCap);
   const refined = computeMonth(world, state, { rules: [RULES.shoplifters] });
   assert.ok(!refined.overCap);
-  assert.equal(refined.watched, 105);
+  assert.equal(refined.watched, 124);
 });
 
 test('next morning the rule stats confirm the hypothesis', () => {
   const state = resolveMonth(world, initialState(world), { rules: [RULES.shoplifters, RULES.embezzlers] });
-  assert.deepEqual(state.history[0].ruleStats.map((stat) => stat.guilty), [90, 90]);
+  assert.deepEqual(state.history[0].ruleStats.map((stat) => stat.guilty), [110, 70]);
   assert.equal(state.history[0].innocentsDetained, 0);
 });
 

@@ -57,7 +57,7 @@ export function createInbox(ctx) {
     const current = store.state();
     const result = store.monthResult();
     if (!item) {
-      replace(reader, h('p.dim', null, t('inbox.empty')));
+      replace(reader);
       return;
     }
     if (item.kind === 'tip') {

@@ -92,7 +92,7 @@ export default {
     report: 'Rapport',
     monthsLeft: 'Mois restants',
     criminality: 'Criminalité',
-    atLarge: '{n} criminels en liberté',
+    atLarge: '{n} criminels en liberté · 0 % exige moins de 50',
     unrest: 'Colère',
     unrestNote: '+1 par innocent détenu · retombe de 30 %/mois · émeutes à 100',
     falsePositive: 'Faux positifs',
@@ -258,7 +258,7 @@ export default {
     once: 'Ponctuel',
     lockedRules: 'Les règles sont verrouillées.',
     choice: {
-      housing: { label: 'Logement', oldtown: 'Rester dans la Vieille Ville', stack9: 'Déménager en Strate 9', oldtownNote: 'Loyer 1 200', stack9Note: 'Loyer 500 · Quartier : Strate 9', move: 'Frais de déménagement 300' },
+      housing: { label: 'Logement', oldtown: 'Vivre dans la Vieille Ville', stack9: 'Vivre en Strate 9', oldtownNote: 'Loyer 1 200', stack9Note: 'Loyer 500 · Quartier : Strate 9', move: 'Frais de déménagement 300' },
       food: { label: 'Repas', canteen: 'Cantine du Ministère', blackmarket: 'Marché noir', canteenNote: '600 · légal, fade', blackmarketNote: '250 · illégal sous surveillance' },
       support: { label: 'Mira', none: 'Ne rien envoyer', money: 'Lui envoyer 400', noneNote: 'Elle dit que ça va', moneyNote: 'Loyer, insuline, œuf' },
       contact: { label: 'Garder le contact', keep: 'Continuer d’appeler Mira', cut: 'Couper les ponts', keepNote: 'Elle reste dans vos contacts', cutNote: 'La retire de vos contacts' },

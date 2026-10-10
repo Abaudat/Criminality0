@@ -193,6 +193,7 @@ export function createTable(options) {
   }
 
   function reset() {
+    document.querySelector('.filter-pop')?.remove();
     state.query = '';
     state.filters = {};
     state.sort = options.sort ?? null;

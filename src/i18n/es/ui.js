@@ -92,7 +92,7 @@ export default {
     report: 'Balance',
     monthsLeft: 'Meses restantes',
     criminality: 'Criminalidad',
-    atLarge: '{n} criminales en libertad',
+    atLarge: '{n} criminales en libertad · el 0 % exige menos de 50',
     unrest: 'Malestar',
     unrestNote: '+1 por inocente detenido · baja un 30%/mes · disturbios a 100',
     falsePositive: 'Falsos positivos',
@@ -258,7 +258,7 @@ export default {
     once: 'Pago único',
     lockedRules: 'Las reglas están bloqueadas.',
     choice: {
-      housing: { label: 'Vivienda', oldtown: 'Seguir en el Casco Viejo', stack9: 'Mudarse al Bloque 9', oldtownNote: 'Alquiler 1.200', stack9Note: 'Alquiler 500 · Tu distrito pasa a ser Bloque 9', move: 'Mudanza 300' },
+      housing: { label: 'Vivienda', oldtown: 'Vivir en el Casco Viejo', stack9: 'Vivir en el Bloque 9', oldtownNote: 'Alquiler 1.200', stack9Note: 'Alquiler 500 · Tu distrito pasa a ser Bloque 9', move: 'Mudanza 300' },
       food: { label: 'Comida', canteen: 'Comedor del Ministerio', blackmarket: 'Mercado negro', canteenNote: '600 · legal, insípida', blackmarketNote: '250 · ilegal si te vigilan' },
       support: { label: 'Mira', none: 'No enviar nada', money: 'Enviarle 400', noneNote: 'Dice que está bien', moneyNote: 'Alquiler, insulina, huevo' },
       contact: { label: 'Seguir en contacto', keep: 'Seguir llamando a Mira', cut: 'Cortar el contacto', keepNote: 'Sigue entre tus contactos', cutNote: 'La elimina de tus contactos' },

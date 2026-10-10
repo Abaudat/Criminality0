@@ -28,7 +28,7 @@ function changesFor(month) {
   return changes;
 }
 
-function mugshot(ctx, id, kind, index) {
+function mugshot(ctx, id, kind, index, usedLines) {
   const age = valueLabel('age', baseValue('age', id));
   const occupation = valueLabel('occupation', baseValue('occupation', id));
   const contacts = world.population.contactStart[id + 1] - world.population.contactStart[id];
@@ -38,7 +38,7 @@ function mugshot(ctx, id, kind, index) {
     h('div.name', null, nameOf(id)),
     h('div.meta', null, `${age} · ${occupation}`),
     h('div.meta', null, t('briefing.contacts', { n: contacts })),
-    h('div.line', null, humanLineOf(id)));
+    h('div.line', null, humanLineOf(id, usedLines)));
 }
 
 export function createBriefing(ctx) {
@@ -88,7 +88,7 @@ export function createBriefing(ctx) {
     ].sort((a, b) => priority(a.id) - priority(b.id));
     panel.append(h('h2.section', null, t('briefing.cards'), ` · ${formatNumber(entries.length)}`));
     if (!entries.length) panel.append(h('p.dim', null, t('briefing.cardsNone')));
-    else panel.append(h('div.cards', null, entries.slice(0, CARD_LIMIT).map((entry, index) => mugshot(ctx, entry.id, entry.kind, index))));
+    else panel.append(h('div.cards', null, entries.slice(0, CARD_LIMIT).map((entry, index, list, usedLines = (list.used ??= new Set())) => mugshot(ctx, entry.id, entry.kind, index, usedLines))));
     if (entries.length > CARD_LIMIT) panel.append(h('p.small.dim', null, t('briefing.cardsMore', { n: formatNumber(entries.length - CARD_LIMIT) })));
   }
 

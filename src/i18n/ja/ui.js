@@ -92,7 +92,7 @@ export default {
     report: '報告',
     monthsLeft: '残り月数',
     criminality: '犯罪率',
-    atLarge: '逃亡中の犯罪者 {n}人',
+    atLarge: '逃亡中の犯罪者 {n}人 · 0%には50人未満が必要',
     unrest: '不穏度',
     unrestNote: '無実の拘束1人につき+1 · 毎月30%沈静 · 100で暴動',
     falsePositive: '誤認率',
@@ -258,7 +258,7 @@ export default {
     once: '一回限り',
     lockedRules: 'ルールは確定済み。',
     choice: {
-      housing: { label: '住まい', oldtown: '旧市街に住み続ける', stack9: 'スタック9へ引っ越す', oldtownNote: '家賃 1,200', stack9Note: '家賃 500 · 地区がスタック9になる', move: '引越し費用 300' },
+      housing: { label: '住まい', oldtown: '旧市街に住む', stack9: 'スタック9に住む', oldtownNote: '家賃 1,200', stack9Note: '家賃 500 · 地区がスタック9になる', move: '引越し費用 300' },
       food: { label: '食事', canteen: '省の食堂', blackmarket: '闇市', canteenNote: '600 · 合法、味気ない', blackmarketNote: '250 · 監視下なら違法' },
       support: { label: 'ミラ', none: '何も送らない', money: '400送る', noneNote: '本人は大丈夫だと言っている', moneyNote: '家賃、インスリン、卵' },
       contact: { label: '連絡', keep: 'ミラと電話を続ける', cut: '連絡を絶つ', keepNote: '交友関係に残る', cutNote: '交友関係から外れる' },

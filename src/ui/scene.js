@@ -56,7 +56,7 @@ function playScene(id, vars, onSeen) {
       text.textContent = '';
       clearInterval(typing);
       typing = setInterval(() => {
-        position += 2;
+        position += 3;
         text.textContent = full.slice(0, position);
         if (position % 6 === 0) sfx.key();
         if (position >= full.length) {
@@ -64,7 +64,7 @@ function playScene(id, vars, onSeen) {
           typing = null;
           done?.();
         }
-      }, 22);
+      }, 16);
     };
 
     const showSpeaker = (speaker) => {
